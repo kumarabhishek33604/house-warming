@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silver Jubilee — 25 Years of [Your School Name]</title>
+    <style>
+        /* ============================================
+           SCHOOL PHOTO GALLERY — EASY TO CUSTOMISE
+           ============================================
+           
+           HOW TO EDIT:
+           1. Change colours in the :root section below
+           2. Replace the school name in the HTML
+           3. Add your photos in the <main> section
+           4. Each "gallery-section" is a category
+              (e.g., Sports Day, Annual Day, etc.)
+           
+           ============================================ */
+
+        :root {
+            /* === CHANGE THESE COLOURS TO MATCH YOUR SCHOOL === */
+            --primary-color: #1a365d;      /* Dark blue — main headings */
+            --accent-color: #c9a84c;       /* Gold — accents & borders */
+            --bg-color: #faf9f6;           /* Off-white background */
+            --text-color: #2d3748;         /* Dark grey text */
+            --card-bg: #ffffff;            /* White card background */
+            --section-bg: #f0eeeb;         /* Light section background */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* === HEADER / BANNER === */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #2a4a7f 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 30px,
+                rgba(255,255,255,0.02) 30px,
+                rgba(255,255,255,0.02) 60px
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero .badge {
+            display: inline-block;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            font-style: italic;
+        }
+
+        /* === NAVIGATION (jump to sections) === */
+        .nav-bar {
+            background: var(--primary-color);
+            padding: 0.8rem 1.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .nav-bar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.8rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .nav-bar a:hover {
+            opacity: 1;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        /* === GALLERY SECTIONS === */
+        .gallery-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .gallery-section:nth-child(even) {
+            background: var(--section-bg);
+            max-width: 100%;
+        }
+
+        .gallery-section:nth-child(even) .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 0.4rem;
+        }
+
+        .section-header .divider {
+            width: 60px;
+            height: 3px;
+            background: var(--accent-color);
+            margin: 0.6rem auto;
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            font-size: 1rem;
+            color: #718096;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* === PHOTO GRID === */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+        }
+
+        .photo-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .photo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-card .caption {
+            padding: 0.8rem 1rem;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .photo-card .caption .year {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* === LIGHTBOX (click to enlarge) === */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .lightbox-overlay.active {
+            display: flex;
+        }
+
+        .lightbox-overlay img {
+            max-width: 90%;
+            max-height: 80vh;
+            border-radius: 4px;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .lightbox-overlay .lightbox-caption {
+            color: white;
+            margin-top: 1rem;
+            font-size: 1rem;
+            text-align: center;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+
+        .lightbox-close {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            font-family: Arial, sans-serif;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .lightbox-close:hover {
+            opacity: 1;
+        }
+
+        .lightbox-nav {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 1001;
+            background: none;
+            border: none;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            padding: 1rem;
+        }
+
+        .lightbox-nav:hover { opacity: 1; }
+        .lightbox-prev { left: 1rem; }
+        .lightbox-next { right: 1rem; }
+
+        /* === FOOTER === */
+        .footer {
+            background: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 1.5rem;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .footer .school-name {
+            font-family: Georgia, serif;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .footer .footer-note {
+            opacity: 0.6;
+            font-size: 0.8rem;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.8rem; }
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 0.8rem;
+            }
+            .photo-card img { height: 180px; }
+            .nav-bar a { margin: 0 0.4rem; font-size: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .photo-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.5rem;
+            }
+            .photo-card img { height: 140px; }
+            .photo-card .caption { padding: 0.5rem 0.7rem; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- =============================================
+         HERO BANNER — Edit your school name here
+         ============================================= -->
+    <div class="hero">
+        <div class="hero-content">
+            <div class="badge">Est. 2001</div>
+            <h1>25 Years of Excellence</h1>
+            <p class="subtitle">A Silver Jubilee Celebration — [Your School Name]</p>
+        </div>
+    </div>
+
+    <!-- =============================================
+         NAVIGATION — Add/remove section links here
+         ============================================= -->
+    <nav class="nav-bar">
+        <a href="#founding">Founding Days</a>
+        <a href="#sports">Sports</a>
+        <a href="#culturals">Culturals</a>
+        <a href="#graduation">Graduation</a>
+        <a href="#campus">Campus</a>
+    </nav>
+
+    <!-- =============================================
+         SECTION 1: FOUNDING DAYS
+         
+         HOW TO ADD A PHOTO:
+         Copy this block inside the "photo-grid" div:
+         
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="photos/your-image.jpg" alt="Description">
+                <div class="caption">
+                    <div class="year">2001</div>
+                    Your caption here
+                </div>
+            </div>
+         
+         ============================================= -->
+    <section class="gallery-section" id="founding">
+        <div class="section-header">
+            <h2>The Founding Days</h2>
+            <div class="divider"></div>
+            <p>Where it all began — the first classrooms, the first students, the first dreams.</p>
+        </div>
+        <div class="photo-grid">
+
+            <!-- PHOTO 1 — Replace src with your image path -->
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/1a365d/c9a84c?text=Founding+Day" alt="School founding ceremony">
+                <div class="caption">
+                    <div class="year">2001</div>
+                    The inaugural ceremony with the first batch of students
+                </div>
+            </div>
+
+            <!-- PHOTO 2 -->
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/1a365d/c9a84c?text=First+Classroom" alt="First classroom">
+                <div class="caption">
+                    <div class="year">2001</div>
+                    Our very first classroom — where the journey started
+                </div>
+            </div>
+
+            <!-- PHOTO 3 -->
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/1a365d/c9a84c?text=First+Teachers" alt="First teachers">
+                <div class="caption">
+                    <div class="year">2002</div>
+                    The founding faculty who shaped our school's vision
+                </div>
+            </div>
+
+            <!-- ADD MORE PHOTOS HERE by copying the block above -->
+
+        </div>
+    </section>
+
+    <!-- =============================================
+         SECTION 2: SPORTS
+         ============================================= -->
+    <section class="gallery-section" id="sports">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2>Sports &amp; Athletics</h2>
+                <div class="divider"></div>
+                <p>25 years of champions — on the field and beyond.</p>
+            </div>
+            <div class="photo-grid">
+
+                <div class="photo-card" onclick="openLightbox(this)">
+                    <img src="https://placehold.co/600x400/2a4a7f/ffffff?text=Sports+Day" alt="Annual sports day">
+                    <div class="caption">
+                        <div class="year">2015</div>
+                        Annual Sports Day — the 100m finals
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox(this)">
+                    <img src="https://placehold.co/600x400/2a4a7f/ffffff?text=Cricket+Team" alt="Cricket team">
+                    <div class="caption">
+                        <div class="year">2019</div>
+                        Inter-school cricket champions
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox(this)">
+                    <img src="https://placehold.co/600x400/2a4a7f/ffffff?text=Athletics" alt="Athletics meet">
+                    <div class="caption">
+                        <div class="year">2023</div>
+                        District-level athletics meet — gold medal winners
+                    </div>
+                </div>
+
+                <!-- ADD MORE PHOTOS HERE -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         SECTION 3: CULTURALS
+         ============================================= -->
+    <section class="gallery-section" id="culturals">
+        <div class="section-header">
+            <h2>Cultural Celebrations</h2>
+            <div class="divider"></div>
+            <p>Music, dance, drama — the soul of our school.</p>
+        </div>
+        <div class="photo-grid">
+
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/6b3a2a/f5e6d3?text=Annual+Day" alt="Annual day performance">
+                <div class="caption">
+                    <div class="year">2018</div>
+                    Annual Day — classical dance performance
+                </div>
+            </div>
+
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/6b3a2a/f5e6d3?text=Music+Fest" alt="Music festival">
+                <div class="caption">
+                    <div class="year">2022</div>
+                    School band performing at the music festival
+                </div>
+            </div>
+
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/6b3a2a/f5e6d3?text=Drama+Club" alt="Drama club">
+                <div class="caption">
+                    <div class="year">2024</div>
+                    Shakespeare week — drama club's finest hour
+                </div>
+            </div>
+
+            <!-- ADD MORE PHOTOS HERE -->
+
+        </div>
+    </section>
+
+    <!-- =============================================
+         SECTION 4: GRADUATION
+         ============================================= -->
+    <section class="gallery-section" id="graduation">
+        <div class="section-inner">
+            <div class="section-header">
+                <h2>Graduation Ceremonies</h2>
+                <div class="divider"></div>
+                <p>Farewells and new beginnings — our proudest moments.</p>
+            </div>
+            <div class="photo-grid">
+
+                <div class="photo-card" onclick="openLightbox(this)">
+                    <img src="https://placehold.co/600x400/2d5016/d4edbc?text=Batch+2020" alt="Graduation 2020">
+                    <div class="caption">
+                        <div class="year">2020</div>
+                        Batch of 2020 — virtual graduation during the pandemic
+                    </div>
+                </div>
+
+                <div class="photo-card" onclick="openLightbox(this)">
+                    <img src="https://placehold.co/600x400/2d5016/d4edbc?text=Batch+2025" alt="Graduation 2025">
+                    <div class="caption">
+                        <div class="year">2025</div>
+                        The Silver Jubilee batch — 25th graduating class
+                    </div>
+                </div>
+
+                <!-- ADD MORE PHOTOS HERE -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- =============================================
+         SECTION 5: CAMPUS
+         ============================================= -->
+    <section class="gallery-section" id="campus">
+        <div class="section-header">
+            <h2>Our Campus Through the Years</h2>
+            <div class="divider"></div>
+            <p>From humble beginnings to the campus we know today.</p>
+        </div>
+        <div class="photo-grid">
+
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/4a4a4a/ffffff?text=Campus+2001" alt="Campus 2001">
+                <div class="caption">
+                    <div class="year">2001</div>
+                    The original school building
+                </div>
+            </div>
+
+            <div class="photo-card" onclick="openLightbox(this)">
+                <img src="https://placehold.co/600x400/4a4a4a/ffffff?text=Campus+2026" alt="Campus 2026">
+                <div class="caption">
+                    <div class="year">2026</div>
+                    Our campus today — 25 years of growth
+                </div>
+            </div>
+
+            <!-- ADD MORE PHOTOS HERE -->
+
+        </div>
+    </section>
+
+    <!-- =============================================
+         FOOTER
+         ============================================= -->
+    <footer class="footer">
+        <div class="school-name">[Your School Name]</div>
+        <p>Silver Jubilee Edition • 2001–2026</p>
+        <p class="footer-note">Made with love by the Magazine Editorial Team</p>
+    </footer>
+
+    <!-- =============================================
+         LIGHTBOX — No need to edit this part
+         ============================================= -->
+    <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+        <button class="lightbox-close" onclick="closeLightbox(event)">&times;</button>
+        <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(event, -1)">&#8249;</button>
+        <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(event, 1)">&#8250;</button>
+        <img id="lightbox-img" src="" alt="">
+        <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+
+    <script>
+        // ============================================
+        // LIGHTBOX FUNCTIONALITY — No need to edit
+        // ============================================
+        let currentIndex = 0;
+        let allCards = [];
+
+        function openLightbox(card) {
+            allCards = Array.from(document.querySelectorAll('.photo-card'));
+            currentIndex = allCards.indexOf(card);
+            showImage(currentIndex);
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function showImage(index) {
+            const card = allCards[index];
+            const img = card.querySelector('img');
+            const caption = card.querySelector('.caption');
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox-img').alt = img.alt;
+            document.getElementById('lightbox-caption').textContent = caption ? caption.textContent.trim() : '';
+        }
+
+        function closeLightbox(event) {
+            if (event.target.classList.contains('lightbox-nav') || 
+                event.target.classList.contains('lightbox-prev') || 
+                event.target.classList.contains('lightbox-next')) return;
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function navigateLightbox(event, direction) {
+            event.stopPropagation();
+            currentIndex = (currentIndex + direction + allCards.length) % allCards.length;
+            showImage(currentIndex);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox(e);
+            if (e.key === 'ArrowLeft') navigateLightbox(e, -1);
+            if (e.key === 'ArrowRight') navigateLightbox(e, 1);
+        });
+    </script>
+
+</body>
+</html>
